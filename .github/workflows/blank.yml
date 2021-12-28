@@ -19,6 +19,7 @@ jobs:
                   pip install --user .
             - name: LOAD EE CREDENTIALS
               run: python functions/credentials.py
+              run: python functions/server.py
               env:
                   EARTHENGINE_TOKEN: ${{ secrets.EARTHENGINE_TOKEN }}
             
