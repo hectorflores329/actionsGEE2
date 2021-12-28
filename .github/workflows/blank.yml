@@ -1,4 +1,4 @@
-name: docs
+name: GEE
 on:
     push:
         branches:
