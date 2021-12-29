@@ -61,7 +61,7 @@ def gases_img1():
                 df = df[['Fecha','id_ciud_N','mean']]
                 
                 print(salida)
-
+                print(df)
                 # df.to_csv('functions/descarga/' + str(fechaI) + '.csv', index=False)
                 df.to_csv(f"functions/descarga/{fechaI}.csv")
                 print('Fecha: ' + str(fechaI))
