@@ -71,7 +71,7 @@ def gases_img1():
                 df = df[['Fecha','id_ciud_N','mean']]
                 
 
-                df.to_excel('descarga/' + str(fechaI) + '.xlsx', index=False)
+                df.to_excel('functions/descarga/' + str(fechaI) + '.xlsx', index=False)
                 print('Fecha: ' + str(fechaI))
 
 
