@@ -11,7 +11,9 @@ from urllib.request import urlopen
 file = 'data/ciudades/*.json'
 files = glob.glob(file)
 filenames = np.array(files)
-            
+
+print('CANTIDAD: ' + str(len(filenames)))          
+
 Map = geemap.Map()
 
 def gases_img1():
