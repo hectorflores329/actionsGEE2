@@ -7,7 +7,6 @@ from datetime import date
 from datetime import datetime
 from datetime import timedelta
 from urllib.request import urlopen
-import csv
 
 file = 'functions/data/ciudades/*.json'
 files = glob.glob(file)
@@ -63,7 +62,8 @@ def gases_img1():
                 
                 print(salida)
 
-                df.to_csv(str(fechaI) + '.csv', index=False)
+                # df.to_csv('functions/descarga/' + str(fechaI) + '.csv', index=False)
+                df.to_csv(f"descarga/{fechaI}.csv")
                 print('Fecha: ' + str(fechaI))
 
             except:
@@ -74,8 +74,9 @@ def gases_img1():
                 df = df[['Fecha','id_ciud_N','mean']]
                 
                 print(salida)
-
-                df.to_csv(str(fechaI) + '.csv', index=False)
+                
+                # df.to_csv('functions/descarga/' + str(fechaI) + '.csv', index=False)
+                df.to_csv(f"descarga/{fechaI}.csv")
                 print('Fecha: ' + str(fechaI))
 
 
