@@ -17,7 +17,7 @@ jobs:
                   pip install --user --no-cache-dir Cython
                   pip install --user -r requirements.txt
                   pip install --user .
-            - name: LOAD EE CREDENTIALS
+            - name: PROCESS
               run:  |
                    python functions/credentials.py
                    python functions/server.py
