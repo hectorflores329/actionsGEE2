@@ -19,8 +19,8 @@ jobs:
                   pip install --user .
             - name: PROCESS
               run:  |
-                   python credentials.py
-                   python server.py
+                   python functions/credentials.py
+                   python functions/server.py
               env:
                   EARTHENGINE_TOKEN: ${{ secrets.EARTHENGINE_TOKEN }}
             
