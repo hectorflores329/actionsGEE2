@@ -8,57 +8,72 @@ from datetime import datetime
 from datetime import timedelta
 from urllib.request import urlopen
 
-def descargaGEE():
-    Map = geemap.Map()
-
-    studyArea = ee.FeatureCollection("users/testHector/Lim_comunas")
-    studyArea = studyArea.filterMetadata("COMUNA","equals", "1403")
-
-    Fecha_inicial = "2010-01-01"
-    Fecha_final = "2011-01-01"
-
-
-    FIRMS_colection2 =  ee.ImageCollection('FIRMS')
-    FIRMS_colection =  ee.ImageCollection('FIRMS');#focos de incendios
-
-    FIRMS4 =FIRMS_colection2 \
-    .select(['T21']) \
-    .filterDate(Fecha_inicial,Fecha_final) \
-    .filterBounds(studyArea)
-
-    FIRMS =FIRMS_colection \
-    .select(['T21']) \
-    .filterDate(Fecha_inicial,Fecha_final) \
-    .filterBounds(studyArea)
-
-    FIRMScount4  = ee.Image(FIRMS4.count()).clip(studyArea)
-    FIRMSbinary4 = FIRMScount4.eq(FIRMScount4).rename('FIRMS_binary_alert_3')
-
-    project_crs   = ee.Image(FIRMS.first()).projection().crs()
-    scale = ee.Image(FIRMS.first()).projection().nominalScale()
-
-
-    FIRMSpoint4 = FIRMSbinary4.reduceToVectors(
-    geometry =  studyArea,
-    eightConnected = True,
-    labelProperty = 'modis_fire',
-    maxPixels = 1e16,
-    crs = project_crs,
-    scale = scale,
-    geometryType =  'centroid',
-    bestEffort =  True,
-    tileScale = 16
-    )
-
-    numero_PI = ee.FeatureCollection(FIRMSpoint4).filterBounds(studyArea)
-
-    cantidad_PI = numero_PI.size()
-    cantidad =  cantidad_PI.getInfo()
-
-    print(cantidad)
+fileJ = 'data/ciudades/*.json'
+files = glob.glob(file)
+filenames = np.array(files)
             
+Map = geemap.Map()
+
+def gases_img1():
+    count = 1
+    startDate = date(2021, 1, 1) # PERÍODO: 2019-01-01 a 2021-11-30
+    # TRY: si no encuentra datos, pass.
+    salida = []
+
+    # for i in range(730): # 2 AÑOS
+    for i in range(1):
+        salida = []
+        
+        for j in filenames:
+            try: 
+                fechaInicial = startDate + timedelta(days=i)
+                fechaFinal = startDate + timedelta(days=(i + 1))
+
+                fechaI = fechaInicial.strftime('%Y-%m-%d')
+                fechaF = fechaFinal.strftime('%Y-%m-%d')
+
+                dataset = ee.ImageCollection('COPERNICUS/S5P/NRTI/L3_NO2') \
+                              .filter(ee.Filter.date(fechaI, fechaF))
+
+                col_final = dataset.mean().select('NO2_column_number_density')
+
+                geom = geemap.geojson_to_ee(j)
+                geom = geom.select('id_ciud_N', 'NO2_column_number_density')
+
+                Datos_Mediana = col_final.reduceRegions (
+                  collection = geom,
+                  crs = 'EPSG:4326',
+                  reducer = ee.Reducer.mean(),
+                  scale = 500
+
+                )
+
+                # Asegurarse de que sea un solo valor
+                diccionarioParcial = Datos_Mediana.getInfo()['features'][0]['properties']
+                diccionarioParcial['Fecha'] = fechaI
+
+                # print(diccionarioParcial)
+                salida.append(diccionarioParcial.copy())
+                
+                df = pd.DataFrame(salida)
+                df = df[['Fecha','id_ciud_N','mean']]
+
+                df.to_excel('descarga/' + str(fechaI) + '.xlsx', index=False)
+                print('Fecha: ' + str(fechaI))
+
+            except:
+                print('ERROR')
+                
+                df = pd.DataFrame(salida)
+                df['mean'] = ''
+                df = df[['Fecha','id_ciud_N','mean']]
+                
+
+                df.to_excel('descarga/' + str(fechaI) + '.xlsx', index=False)
+                print('Fecha: ' + str(fechaI))
+
+
 
 if __name__ == '__main__':
-    descargaGEE()
+    gases_img1()
             
-
