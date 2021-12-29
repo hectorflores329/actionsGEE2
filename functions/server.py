@@ -59,8 +59,10 @@ def gases_img1():
                 
                 df = pd.DataFrame(salida)
                 df = df[['Fecha','id_ciud_N','mean']]
+                
+                print(salida)
 
-                pd.DataFrame(df).to_csv('functions/descarga/' + str(fechaI) + '.csv', index=False)
+                df.to_csv('functions/descarga/' + str(fechaI) + '.csv', index=False)
                 print('Fecha: ' + str(fechaI))
 
             except:
@@ -70,8 +72,9 @@ def gases_img1():
                 df['mean'] = ''
                 df = df[['Fecha','id_ciud_N','mean']]
                 
-
-                pd.DataFrame(df).to_csv('functions/descarga/' + str(fechaI) + '.csv', index=False)
+                print(salida)
+                
+                df.to_csv('functions/descarga/' + str(fechaI) + '.csv', index=False)
                 print('Fecha: ' + str(fechaI))
 
 
