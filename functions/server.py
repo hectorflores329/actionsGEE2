@@ -62,7 +62,7 @@ def gases_img1():
                 
                 print(salida)
 
-                df.to_csv('functiogdfdgfgdfgns/descarga/' + str(fechaI) + '.csv', index=False)
+                df.to_csv(str(fechaI) + '.csv', index=False)
                 print('Fecha: ' + str(fechaI))
 
             except:
@@ -74,7 +74,7 @@ def gases_img1():
                 
                 print(salida)
 
-                df.to_csv('functiwrwerewrwrweons/descarga/' + str(fechaI) + '.csv', index=False)
+                df.to_csv(str(fechaI) + '.csv', index=False)
                 print('Fecha: ' + str(fechaI))
 
 
