@@ -8,7 +8,7 @@ from datetime import datetime
 from datetime import timedelta
 from urllib.request import urlopen
 
-file = 'data/ciudades/*.json'
+file = 'functions/data/ciudades/*.json'
 files = glob.glob(file)
 filenames = np.array(files)
 
