@@ -1,5 +1,12 @@
 import ee 
 import geemap
+import pandas as pd
+import numpy as np
+import glob
+from datetime import date
+from datetime import datetime
+from datetime import timedelta
+from urllib.request import urlopen
 
 def descargaGEE():
     Map = geemap.Map()
